@@ -14,6 +14,7 @@ Option* Some(void* value, int _value_size_bytes) {
     return opt;
 }
 
+
 Option* None() {
     Option* opt = (Option*)malloc(sizeof(Option));
     if (opt != NULL) {
@@ -23,6 +24,7 @@ Option* None() {
     }
     return opt;
 } 
+
 
 bool is_some(Option* opt) {
     return opt->has_value; 
@@ -39,6 +41,7 @@ void* unwrap(Option* opt) {
     exit(UNWRAP_ERROR_CODE); 
 }
 
+
 void* expect_some(Option* opt, char* error_message) {
 
     if(opt->has_value) {
@@ -49,7 +52,6 @@ void* expect_some(Option* opt, char* error_message) {
 
 
 }
-
 
 
 void free_option(Option* opt) {
@@ -74,6 +76,7 @@ Result* Ok(void* value, int _value_size_bytes) {
     return res;
 }
 
+
 Result* Err(void* error, int _value_size_bytes) {
     Result* res = (Result*)malloc(sizeof(Result));
     if (res != NULL) {
@@ -85,6 +88,7 @@ Result* Err(void* error, int _value_size_bytes) {
     return res;
 }
 
+
 bool is_ok(Result* res) {
     return res->is_ok; 
 }
@@ -93,6 +97,7 @@ bool is_ok(Result* res) {
 bool is_err(Result* res) {
     return !res->is_ok; 
 }
+
 
 void* expect(Result* res, char* error_message) {
     if(res->is_ok) {
@@ -103,6 +108,7 @@ void* expect(Result* res, char* error_message) {
 
 }  
 
+
 void* unwrap_ok(Result* res) {
     if(res->is_ok) {
         return res->ok; 
@@ -111,6 +117,7 @@ void* unwrap_ok(Result* res) {
     exit(EXPECT_ERROR_CODE); 
 
 } 
+
 
 void* unwrap_err(Result* res) {
     if(!res->is_ok) {
