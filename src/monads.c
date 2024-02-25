@@ -4,6 +4,8 @@
 // Option Methods: ////////////////////////////////////////////////////////////////
 
 // Some utility functions for Option
+
+
 Option* Some(void* value, int _value_size_bytes) {
     Option* opt = (Option*)malloc(sizeof(Option));
     if (opt != NULL) {
