@@ -13,7 +13,11 @@
 
 
 
-
+typedef struct struct_token{
+    char* identifier;
+    int id_length;
+    int category;
+} Token;
 
 
 typedef struct struct_stack {
@@ -36,18 +40,15 @@ typedef struct struct_rule {
 */
 typedef struct struct_rsa {
 
-    Stack stack; 
+    Stack* stack; 
 
-    int num_rules; 
     Rule* rules; 
+    int num_rules; 
+    int capacity_rules; 
 
 } RSA;
 
-typedef struct struct_token{
-    char* identifier;
-    int id_length;
-    int category;
-} Token;
+
 // functions
 
 //TOKEN: 
