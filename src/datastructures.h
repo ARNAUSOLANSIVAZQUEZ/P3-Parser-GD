@@ -69,10 +69,10 @@ void initialize_stack(Stack* stack);
 /*peeks*/
 Token* peek_stack(Stack* stack); 
 
-/*pop*/
+/*pop. gives ownership of the poped token. */
 Token* pop_stack(Stack* stack); 
 
-/*Push*/
+/*Push. Takes ownership of the new token*/
 void push_stack(Stack* stack, Token* new_token); 
 
 /*Frees EVERYTHING inside*/

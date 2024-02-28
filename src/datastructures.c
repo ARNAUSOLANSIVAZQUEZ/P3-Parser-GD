@@ -9,6 +9,11 @@ void initialize_token(Token* t, char* _identifier, int _categoty) {
     //TODO: 
 }
 
+Token* clone_token(Token* original_token) {
+    //TODO: 
+}
+
+
 void free_token(Token* t) {
     //TODO: 
 }
@@ -71,11 +76,12 @@ void add_rule(RSA* rsa, Rule rule) {
     if(rsa->num_rules = rsa->capacity_rules) {
         //add capacity
         rsa->capacity_rules = (int)(rsa->capacity_rules * ARRAY_GROWTH_FACOTR); 
+        rsa->rules = (Rule*)realloc(rsa->rules, rsa->capacity_rules * sizeof(Rule)); 
+    
     } 
 
     rsa->rules[rsa->num_rules] = rule; //copy all the contents, the rsa takes ownership of the rule
     rsa->num_rules += 1; 
-
 
 }
 
@@ -85,21 +91,50 @@ void add_rule(RSA* rsa, Rule rule) {
     
 */
 void advance_rsa(RSA* rsa, Token* token) {
-    //TODO: 
+
+    shift_rsa(rsa, token); 
+    bool still_reducing = true; 
+    while(still_reducing) {
+        still_reducing = reduce_rsa(rsa); 
+    }
+}
+
+void shift_rsa(RSA* rsa, Token* token) {
+    push_stack(rsa->stack, token); 
+}
+
+bool reduce_rsa(RSA* rsa) {
+    
+    for(int i = 0; i < rsa->num_rules; i++) {
+        Rule* current_rule = &rsa->rules[i]; 
+        int num_of_elements_to_take = 1; 
+        Token* corresponding_tokens = &rsa->stack->elements[rsa->stack->element_length - num_of_elements_to_take]; 
+        bool follows_the_current_rule = follows_rule(current_rule, corresponding_tokens, num_of_elements_to_take); 
+        if(follows_the_current_rule) {
+            for(int j = 0; j < num_of_elements_to_take; j++) {
+                Token* poped_token = pop_stack(rsa->stack); 
+                free_token(poped_token); 
+                free(poped_token); 
+            }
+
+            Token* substituter_token = clone_token(&(current_rule->element)); 
+
+            push_stack(rsa->stack, substituter_token); 
+
+            return true; 
+
+        }
+
+    }
+
+    return false; 
 
 }
 
-/*Adds token to ths stack inside the rsa*/
-void shift_rsa(RSA* rsa, Token* token); 
-
-/*
-    Tries to aply the rules in order until it can aply one. Once aplied, 
-    returns true. If no rule can be aplied, returns false. 
-*/
-bool reduce_rsa(RSA* rsa); 
-
-/*Returns true if there is only 1 token in the stack and that one is the starting token*/
-bool is_starting_token(RSA* rsa); 
+bool is_starting_token(RSA* rsa) {
+    printf("Comparason with starting token NOT implemented"); 
+    return false; 
+}
 
 
 
