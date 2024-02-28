@@ -17,18 +17,18 @@
 
 
 typedef struct struct_stack {
-    char* elements; 
+    Token* elements; 
     int element_length; 
     int element_capacity; 
-} Stack;
+} Stack; 
 
 /*
     element -> body
 */
 typedef struct struct_rule {
-    char* body; 
+    Token* body; 
     int body_length; 
-    char element; 
+    Token element; 
 } Rule;
 
 
@@ -43,23 +43,48 @@ typedef struct struct_rsa {
 
 } RSA;
 
-typedef struct token{
+typedef struct struct_token{
     char* identifier;
-    int category;
     int id_length;
+    int category;
 } Token;
 // functions
 
+//TOKEN: 
+void initialize_token(Token* t, char* _identifier, int _categoty); 
 
+void free_token(Token* t); 
 
+//Stack
+void initialize_stack(Stack* stack); 
 
+Token* peek_stack(Stack* stack); 
 
+Token* pop_stack(Stack* stack); 
 
+void push_stack(Stack* stack, Token* new_token); 
 
+void free_stack(Stack* stack); 
 
+//RULE
+void initialize_rule(Rule* rule, Token** body, int body_length, Token element); 
 
+bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len); 
 
+void free_rule(Rule* rule); 
 
+//RSA
+void initialize_rsa(RSA* rsa); 
+
+void add_rule(RSA* rsa, Rule rule); 
+
+void advance_rsa(RSA* rsa, Token* token); 
+
+void shift_rsa(RSA* rsa, Token* token); 
+
+bool reduce_rsa(RSA* rsa); 
+
+bool is_starting_token(RSA* rsa); 
 
 
 
