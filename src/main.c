@@ -1,12 +1,10 @@
 
 #include "main.h"
 
-
-
 Token* getTokens(const char* filename){
 
     // Open the file
-    FILE* input_file = fopen(filename, "rb"); // open as binary
+    FILE* input_file = fopen(filename, "r");
     // Handle error opening target file
     if (input_file == NULL) {
         fprintf(stderr, "Error opening file: %s\n", filename);
@@ -33,7 +31,7 @@ int main(int argc, char *argv[])
     }
     
     // Call the getTokens function with the filename
-    int tokenList = getTokens(argv[1]);
+    Token* tokenList = getTokens(argv[1]);
     
     // TODO: Handle error when  list of tokens is empty
 
