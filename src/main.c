@@ -3,7 +3,7 @@
 
 
 
-int getTokens(const char* filename){
+Token* getTokens(const char* filename){
 
     // Open the file
     FILE* input_file = fopen(filename, "rb"); // open as binary
@@ -12,7 +12,17 @@ int getTokens(const char* filename){
         fprintf(stderr, "Error opening file: %s\n", filename);
         return MAIN_ERROR_CANT_READ_FILE; // TODO: cahnge for define error
     }
-    return 0;
+
+    // Allocate memory for tokenList
+    Token* tokenList = malloc(sizeof(Token)); // Allocate memory for one token
+    if (tokenList == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        fclose(input_file);
+        return NULL;
+    }
+    //TODO: create list of tokens
+    
+    return tokenList;
 }
 
 int main(int argc, char *argv[])

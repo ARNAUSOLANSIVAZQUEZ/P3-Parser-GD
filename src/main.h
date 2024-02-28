@@ -7,6 +7,7 @@
 #include <stdbool.h>
 
 #include "errors.h"
+#include "datastructures.h"
 
 
 
