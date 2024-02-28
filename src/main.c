@@ -17,11 +17,9 @@ int getTokens(const char* filename){
 
 int main(int argc, char *argv[])
 {
-    // Check if a file name is provided as a command-line argument
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
-        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MISSING_FILENAME);
-        return MAIN_ERROR_MISSING_FILENAME;
+    if(argc != 1) {
+        printf("Usage: ./parser <input_file.txt>\n"); 
+        return 1; 
     }
     
     // Call the getTokens function with the filename
