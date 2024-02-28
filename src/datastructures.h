@@ -1,5 +1,5 @@
-#ifndef MAIN_HEADER 
-#define MAIN_HEADER
+#ifndef DATASTRUCT_HEADER
+#define DATASTRUCT_HEADER
 
 #include <stdlib.h>
 
@@ -43,8 +43,12 @@ typedef struct struct_rsa {
 
 } RSA;
 
+typedef struct token{
+    char* identifier;
+    int category;
+    int id_length;
+} Token;
 // functions
-
 
 
 
