@@ -57,6 +57,9 @@ typedef struct struct_rsa {
 */
 void initialize_token(Token* t, char* _identifier, int _categoty); 
 
+/*duplicates the token*/
+Token* clone_token(Token* original_token); 
+
 /*
     Frees the identifier inside token. 
 */
