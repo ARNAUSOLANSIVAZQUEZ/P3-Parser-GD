@@ -6,6 +6,9 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include "errors.h"
+#include "datastructures.h"
+
 
 
 
