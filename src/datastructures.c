@@ -7,18 +7,32 @@
 //TOKEN: 
 void initialize_token(Token* t, char* _identifier, int _categoty) {
     //TODO: 
+    t->identifier = strdup(_identifier);
+    t->id_length = strlen(_identifier);  
+    t->category = _category;   
 }
 
 Token* clone_token(Token* original_token) {
     //TODO: 
+    Token* clone = (Token*)malloc(sizeof(Token));
+    clone->identifier = strdup(original_token->identifier);
+    clone->id_length = original_token->id_length;
+    clone->category = original_token->category;
+    return clone;
 }
 
 void print_token(Token* token) {
     //TODO: 
+    printf("\tToken: _________________________\n");
+    printf("Identifier: %s\n", token->identifier);
+    printf("Length: %d\n", token->id_length);
+    printf("Category: %d\n", token->category);
+    printf("\t_________________________________\n");
 }
 
 void free_token(Token* t) {
     //TODO: 
+    free(t->identifier);
 }
 
 //Stack
