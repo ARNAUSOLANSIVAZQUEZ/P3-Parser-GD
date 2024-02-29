@@ -41,13 +41,13 @@ Option* pop_stack(Stack* stack) {
         *top_element_ptr = stack->elements[stack->element_length - 1]; 
         stack->element_length--;
         return Some(top_element_ptr, sizeof(Token));
-    } else {
+    } else { 
         return None(); // Stack is empty
     }
 }
 
 void push_stack(Stack* stack, Token* new_token) {
-    //TODO: 
+
     if (stack->element_length >= stack->element_capacity) {
         // If the stack is full, reallocate memory to increase capacity
         stack->element_capacity = (int)(stack->element_capacity * ARRAY_GROWTH_FACOTR);
@@ -62,12 +62,12 @@ void push_stack(Stack* stack, Token* new_token) {
 }
 
 void free_stack(Stack* stack) {
-    //TODO: 
     for(int i = 0; i < stack->element_length; i++) {
         free_token(&stack->elements[i]); //free the contents of the token
     }
 
     free(stack->elements); // Free the memory allocated for elements
+    //no need to assing everything to 0, this memory is now unvalid and should not be used. It is not our responsability to warn anyone
 }
 
 //RULE

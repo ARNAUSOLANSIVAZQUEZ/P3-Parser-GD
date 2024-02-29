@@ -69,11 +69,15 @@ void free_token(Token* t);
 /* Initializes*/
 void initialize_stack(Stack* stack); 
 
-/*peeks, does NOT give ownership*/
+/*
+    peeks, does NOT give ownership
+    Option<Token*>
+*/
 Option* peek_stack(Stack* stack); 
 
 /*
     pop. gives ownership of the poped token. 
+    Option<Token*>
 */
 Option* pop_stack(Stack* stack); 
 
