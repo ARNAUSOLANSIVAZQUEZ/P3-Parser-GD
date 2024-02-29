@@ -21,28 +21,28 @@ void free_token(Token* t) {
 //Stack
 void initialize_stack(Stack* stack) {
     //TODO: 
-    stack->elements = NULL;
     stack->element_length = 0;
-    stack->element_capacity = 0;
+    stack->element_capacity = ARRAY_BASE_CAPACITY;
+    stack->elements = (Token*)malloc(stack->element_capacity * sizeof(Token));
 }
 
-Token* peek_stack(Stack* stack) {
-    //TODO: 
+Option* peek_stack(Stack* stack) {
     if (stack->element_length > 0) {
-        return &(stack->elements[stack->element_length - 1]);
+        return Some(&(stack->elements[stack->element_length - 1]), sizeof(Token));
     } else {
-        return NULL; // Stack is empty
+        return None(); // Stack is empty
     }
 }
 
-Token* pop_stack(Stack* stack) {
-    //TODO: 
+Option* pop_stack(Stack* stack) {
+
     if (stack->element_length > 0) {
-        Token* top_element = &(stack->elements[stack->element_length - 1]);
+        Token* top_element_ptr = (Token*)malloc(sizeof(Token) * 1); 
+        *top_element_ptr = stack->elements[stack->element_length - 1]; 
         stack->element_length--;
-        return top_element; // Return the pointer to the top element
+        return Some(top_element_ptr, sizeof(Token));
     } else {
-        return NULL; // Stack is empty
+        return None(); // Stack is empty
     }
 }
 
@@ -50,20 +50,24 @@ void push_stack(Stack* stack, Token* new_token) {
     //TODO: 
     if (stack->element_length >= stack->element_capacity) {
         // If the stack is full, reallocate memory to increase capacity
-        stack->element_capacity = (stack->element_capacity == 0) ? 1 : stack->element_capacity * 2;
+        stack->element_capacity = (int)(stack->element_capacity * ARRAY_GROWTH_FACOTR);
         stack->elements = realloc(stack->elements, stack->element_capacity * sizeof(Token));
     }
     // Add the new token to the top of the stack
     stack->elements[stack->element_length] = *new_token;
-    stack->element_length++; // Increment element length
+    stack->element_length++; // Increment element length 
+
+    free(new_token); //the information has been copied, but we must free the memory since its our responsability now. 
+
 }
 
 void free_stack(Stack* stack) {
     //TODO: 
+    for(int i = 0; i < stack->element_length; i++) {
+        free_token(&stack->elements[i]); //free the contents of the token
+    }
+
     free(stack->elements); // Free the memory allocated for elements
-    stack->elements = NULL;
-    stack->element_length = 0;
-    stack->element_capacity = 0;
 }
 
 //RULE

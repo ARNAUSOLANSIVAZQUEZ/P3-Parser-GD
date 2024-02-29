@@ -69,13 +69,17 @@ void free_token(Token* t);
 /* Initializes*/
 void initialize_stack(Stack* stack); 
 
-/*peeks*/
-Token* peek_stack(Stack* stack); 
+/*peeks, does NOT give ownership*/
+Option* peek_stack(Stack* stack); 
 
-/*pop. gives ownership of the poped token. */
-Token* pop_stack(Stack* stack); 
+/*
+    pop. gives ownership of the poped token. 
+*/
+Option* pop_stack(Stack* stack); 
 
-/*Push. Takes ownership of the new token*/
+/*
+    Push. Takes ownership of the new token. new_token must be heap-allocated. 
+*/
 void push_stack(Stack* stack, Token* new_token); 
 
 /*Frees EVERYTHING inside*/
