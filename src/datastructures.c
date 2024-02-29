@@ -9,7 +9,7 @@ void initialize_token(Token* t, char* _identifier, int _categoty) {
     //TODO: 
     t->identifier = strdup(_identifier);
     t->id_length = strlen(_identifier);  
-    t->category = _category;   
+    t->category = _categoty;   
 }
 
 Token* clone_token(Token* original_token) {
