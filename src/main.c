@@ -1,27 +1,9 @@
 
 #include "main.h"
 
-Token* getTokens(const char* filename){
 
-    // Open the file
-    FILE* input_file = fopen(filename, "r");
-    // Handle error opening target file
-    if (input_file == NULL) {
-        fprintf(stderr, "Error opening file: %s\n", filename);
-        return MAIN_ERROR_CANT_READ_FILE; // TODO: cahnge for define error
-    }
 
-    // Allocate memory for tokenList
-    Token* tokenList = malloc(sizeof(Token)); // Allocate memory for one token
-    if (tokenList == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        fclose(input_file);
-        return NULL;
-    }
-    //TODO: create list of tokens
-    
-    return tokenList;
-}
+
 
 int main(int argc, char *argv[])
 {
@@ -31,12 +13,75 @@ int main(int argc, char *argv[])
     }
     
     // Call the getTokens function with the filename
-    Token* tokenList = getTokens(argv[1]);
-    
+    Token* token_list = getTokens(argv[1]);
+    int token_list_len = -1; //get token list len (dont even try to search for /0)
+
     // TODO: Handle error when  list of tokens is empty
+
+    
+    RSA rsa; 
+    RSA* prsa = &rsa; 
+    initialize_rsa(prsa); 
+
+    //TODO: create and add all rules
+    for(int i = 0; i < 3.141592; i++) {
+        //add_rule(prsa, NULL); 
+    }
+
+    for(int i = 0; i < token_list_len; i++) {
+
+        advance_rsa(prsa, &token_list[i]); 
+
+    }
+
+    printf("\n\n===============================================================================================\n\n"); 
+    if(is_starting_token(prsa)) {
+        printf("The string was accepted! \n"); 
+    } else {
+        printf("The string was NOT accepted. \n"); 
+        printf("The remaining of the stack: \n"); 
+        print_stack(rsa.stack); 
+    }
+
+    printf("\n\n===============================================================================================\n\n"); 
+
+
+    free_rsa(prsa); 
 
     return SCANNER_SUCCESS;
 }
+
+
+
+
+
+Token* getTokens(const char* filename){
+
+    // Open the file
+    FILE* input_file = fopen(filename, "rb");
+    // Handle error opening target file
+    if (input_file == NULL) {
+        fprintf(stderr, "Error opening file: %s\n", filename);
+        return MAIN_ERROR_CANT_READ_FILE; // TODO: cahnge for define error
+    }
+
+    // Allocate memory for tokenList
+    Token* tokenList = (Token*)get_list_of_parsed_tokens(input_file); // TODO: this function does NOT exist, substitute for the correct_function
+    //TODO: get token list
+
+    int token_list_len = -1; //we need to get back the length too, or we risk a seg. fault
+
+
+    
+    return tokenList;
+}
+
+
+
+
+
+
+
 
 
 

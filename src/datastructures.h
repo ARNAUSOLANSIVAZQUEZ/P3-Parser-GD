@@ -90,6 +90,9 @@ Option* pop_stack(Stack* stack);
 */
 void push_stack(Stack* stack, Token* new_token); 
 
+/*prints*/
+void print_stack(Stack* stack); 
+
 /*Frees EVERYTHING inside*/
 void free_stack(Stack* stack); 
 
@@ -132,7 +135,8 @@ bool reduce_rsa(RSA* rsa);
 /*Returns true if there is only 1 token in the stack and that one is the starting token*/
 bool is_starting_token(RSA* rsa); 
 
-
+/*frees the contents of rsa*/
+void free_rsa(RSA* rsa); 
 
 
 

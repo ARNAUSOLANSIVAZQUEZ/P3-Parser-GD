@@ -64,6 +64,15 @@ void push_stack(Stack* stack, Token* new_token) {
 
 }
 
+void print_stack(Stack* stack) {
+    printf("\tStack: _________________________\n"); 
+    for(int i = 0; i < stack->element_length; i++) {
+        print_token(&stack->elements[i]); 
+    }
+    printf("_______________________________\n"); 
+}
+
+
 void free_stack(Stack* stack) {
     for(int i = 0; i < stack->element_length; i++) {
         free_token(&stack->elements[i]); //free the contents of the token
@@ -179,6 +188,12 @@ bool is_starting_token(RSA* rsa) {
     return false; 
 }
 
+
+void free_rsa(RSA* rsa) {
+    //TODO
+
+
+}
 
 
 

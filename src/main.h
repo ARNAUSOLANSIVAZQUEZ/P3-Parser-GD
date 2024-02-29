@@ -10,6 +10,6 @@
 #include "datastructures.h"
 
 
-
+Token* getTokens(const char* filename); 
 
 #endif
