@@ -13,6 +13,9 @@ Token* clone_token(Token* original_token) {
     //TODO: 
 }
 
+void print_token(Token* token) {
+    //TODO: 
+}
 
 void free_token(Token* t) {
     //TODO: 
@@ -81,6 +84,14 @@ bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len) {
     return false; 
 }
 
+void print_rule(Rule* rule) {
+    //TODO: 
+
+    //maybe wanna use: ?
+    // print_token(Token* token)
+}
+
+
 void free_rule(Rule* rule) {
     //TODO: 
 
@@ -126,7 +137,8 @@ void advance_rsa(RSA* rsa, Token* token) {
 }
 
 void shift_rsa(RSA* rsa, Token* token) {
-    push_stack(rsa->stack, token); 
+    Token* cloned = clone_token(token); 
+    push_stack(rsa->stack, cloned); 
 }
 
 bool reduce_rsa(RSA* rsa) {
@@ -136,7 +148,12 @@ bool reduce_rsa(RSA* rsa) {
         int num_of_elements_to_take = 1; 
         Token* corresponding_tokens = &rsa->stack->elements[rsa->stack->element_length - num_of_elements_to_take]; 
         bool follows_the_current_rule = follows_rule(current_rule, corresponding_tokens, num_of_elements_to_take); 
-        if(follows_the_current_rule) {
+        if(follows_the_current_rule) { 
+
+            printf("Aplying the rule: \n"); 
+            print_rule(current_rule); 
+            printf("\n\n"); 
+
             for(int j = 0; j < num_of_elements_to_take; j++) {
                 Token* poped_token = pop_stack(rsa->stack); 
                 free_token(poped_token); 

@@ -13,7 +13,7 @@
 
 
 
-typedef struct struct_token{
+typedef struct struct_token {
     char* identifier;
     int id_length;
     int category;
@@ -57,6 +57,10 @@ typedef struct struct_rsa {
 */
 void initialize_token(Token* t, char* _identifier, int _categoty); 
 
+
+/*prints, debug info. Does NOT take ownersip*/
+void print_token(Token* token); 
+
 /*duplicates the token*/
 Token* clone_token(Token* original_token); 
 
@@ -96,6 +100,9 @@ void initialize_rule(Rule* rule, Token** body, int body_length, Token element);
 /*Returns true iff the list of rule_candidates follows the rule*/
 bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len); 
 
+/*prints, debug info. Does NOT take ownersip*/
+void print_rule(Rule* rule); 
+
 /*Frees*/
 void free_rule(Rule* rule); 
 
@@ -108,12 +115,12 @@ void add_rule(RSA* rsa, Rule rule);
 
 /*
     Advances the rsa with the next token. It will shift the rsa with the token and then 
-    reduce until it fails to do so. 
+    reduce until it fails to do so. Does NOT take ownership of token
     
 */
 void advance_rsa(RSA* rsa, Token* token); 
 
-/*Adds token to ths stack inside the rsa*/
+/*Adds clone of token to ths stack inside the rsa. Does NOT take ownership*/
 void shift_rsa(RSA* rsa, Token* token); 
 
 /*

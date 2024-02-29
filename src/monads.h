@@ -9,8 +9,8 @@
 
 
 #define UNWRAP_ERROR_MESSAGE "Tried to unwrap a None option. \n"
-#define UNWRAP_OK_ERROR_CODE "Tried to unwrap as ok an Err Result. \n"
-#define UNWRAP_ERR_ERROR_CODE "Tried to unwrap as Err an ok Result. \n"
+#define UNWRAP_OK_ERROR_CODE "Tried to unwrap as Ok an Err Result. \n"
+#define UNWRAP_ERR_ERROR_CODE "Tried to unwrap as Err an Ok Result. \n"
 #define UNWRAP_ERROR_CODE 142
 #define EXPECT_ERROR_CODE 143
 // 142 and  143 don't have any special meaning
