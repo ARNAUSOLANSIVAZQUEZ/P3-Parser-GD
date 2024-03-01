@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 
     }
 
+    //print results: 
     printf("\n\n===============================================================================================\n\n"); 
     if(is_starting_token(prsa)) {
         printf("The string was accepted! \n"); 
@@ -45,6 +46,11 @@ int main(int argc, char *argv[])
 
     printf("\n\n===============================================================================================\n\n"); 
 
+    //freeing zone: 
+    for(int i = 0; i < token_list_len; i++) {
+        free_token(&token_list[i]); 
+    }
+    free(token_list); 
 
     free_rsa(prsa); 
 
@@ -70,7 +76,7 @@ Token* getTokens(const char* filename){
     //TODO: get token list
 
     int token_list_len = -1; //we need to get back the length too, or we risk a seg. fault
-
+    //^si necessites, canvia la signatura de la funció
 
     
     return tokenList;
