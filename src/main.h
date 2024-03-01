@@ -9,7 +9,7 @@
 #include "errors.h"
 #include "datastructures.h"
 
-
-Token* getTokens(const char* filename); 
+char** getStringToken(const char* input);
+Token* stringToToken(char** stringTokens);
 
 #endif
