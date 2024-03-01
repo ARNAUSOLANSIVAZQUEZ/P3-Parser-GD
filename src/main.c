@@ -100,11 +100,10 @@ Token* getTokens(const char* filename){
         return MAIN_ERROR_CANT_READ_FILE; // TODO: cahnge for define error
     }
 
-    /* TODO: Funció que separi en <>: char* el input file. I amb un loop cridi per cada <>, 
-    les següents funcions i afageixi el resultat a la llista de tokens: 
+    /* TODO: Passar contingut del input_file a char* i cridar: 
     
-    char* stringToken = getStringToken(input);
-    Token token = stringToToken(stringToken);
+    char** stringToken = getStringToken(input);
+    Token* token = stringToToken(stringToken);
 
     */
 
