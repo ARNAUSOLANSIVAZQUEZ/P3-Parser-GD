@@ -6,14 +6,12 @@
 
 //TOKEN: 
 void initialize_token(Token* t, char* _identifier, int _categoty) {
-    //TODO: 
     t->identifier = strdup(_identifier);
     t->id_length = strlen(_identifier);  
     t->category = _categoty;   
 }
 
 Token* clone_token(Token* original_token) {
-    //TODO: 
     Token* clone = (Token*)malloc(sizeof(Token));
     clone->identifier = strdup(original_token->identifier);
     clone->id_length = original_token->id_length;
@@ -22,7 +20,6 @@ Token* clone_token(Token* original_token) {
 }
 
 void print_token(Token* token) {
-    //TODO: 
     printf("\tToken: _________________________\n");
     printf("Identifier: %s\n", token->identifier);
     printf("Length: %d\n", token->id_length);
@@ -31,13 +28,11 @@ void print_token(Token* token) {
 }
 
 void free_token(Token* t) {
-    //TODO: 
     free(t->identifier);
 }
 
 //Stack
 void initialize_stack(Stack* stack) {
-    //TODO: 
     stack->element_length = 0;
     stack->element_capacity = ARRAY_BASE_CAPACITY;
     stack->elements = (Token*)malloc(stack->element_capacity * sizeof(Token));
@@ -177,8 +172,11 @@ bool reduce_rsa(RSA* rsa) {
             print_rule(current_rule); 
             printf("\n\n"); 
 
-            for(int j = 0; j < num_of_elements_to_take; j++) {
-                Token* poped_token = pop_stack(rsa->stack); 
+            for(int j = 0; j < num_of_elements_to_take; j++) { 
+                Option* poped_token_opt = pop_stack(rsa->stack); 
+                Token* poped_token = (Token*)expect_some(poped_token_opt, "A token. Should always succeed because the rule test suceded. \n"); 
+                
+                free_option(poped_token_opt); 
                 free_token(poped_token); 
                 free(poped_token); 
             }
