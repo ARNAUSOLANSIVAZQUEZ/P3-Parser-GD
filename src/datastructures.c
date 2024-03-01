@@ -81,7 +81,6 @@ void print_stack(Stack* stack) {
     printf("_______________________________\n"); 
 }
 
-
 void free_stack(Stack* stack) {
     for(int i = 0; i < stack->element_length; i++) {
         free_token(&stack->elements[i]); //free the contents of the token
@@ -109,7 +108,6 @@ void print_rule(Rule* rule) {
     // print_token(Token* token)
 }
 
-
 void free_rule(Rule* rule) {
     //TODO: 
 
@@ -125,10 +123,9 @@ void initialize_rsa(RSA* rsa) {
 
 }
 
-/*Adds a rule. The order matters. */
 void add_rule(RSA* rsa, Rule rule) {
 
-    if(rsa->num_rules = rsa->capacity_rules) {
+    if(rsa->num_rules == rsa->capacity_rules) {
         //add capacity
         rsa->capacity_rules = (int)(rsa->capacity_rules * ARRAY_GROWTH_FACOTR); 
         rsa->rules = (Rule*)realloc(rsa->rules, rsa->capacity_rules * sizeof(Rule)); 
@@ -140,11 +137,6 @@ void add_rule(RSA* rsa, Rule rule) {
 
 }
 
-/*
-    Advances the rsa with the next token. It will shift the rsa with the token and then 
-    reduce until it fails to do so. 
-    
-*/
 void advance_rsa(RSA* rsa, Token* token) {
 
     shift_rsa(rsa, token); 
@@ -152,6 +144,7 @@ void advance_rsa(RSA* rsa, Token* token) {
     while(still_reducing) {
         still_reducing = reduce_rsa(rsa); 
     }
+
 }
 
 void shift_rsa(RSA* rsa, Token* token) {
@@ -196,15 +189,19 @@ bool reduce_rsa(RSA* rsa) {
 }
 
 bool is_starting_token(RSA* rsa) {
-    printf("Comparason with starting token NOT implemented"); 
+    printf("Comparason with starting token NOT implemented\n"); 
     return false; 
 }
 
 
 void free_rsa(RSA* rsa) {
-    //TODO
-
-
+    //rsa->rules
+    for(int i = 0; i < rsa->num_rules; i++) {
+        free_rule(&rsa->rules[i]); 
+    }
+    free(rsa->rules); 
+    free_stack(rsa->stack); 
+    
 }
 
 
