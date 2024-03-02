@@ -5,19 +5,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+
 #include "errors.h"
-/* #include "datastructures.h" */
+#include "datastructures.h"
 
 
-#define NUMERIC_NUMBER_CAT 1
-#define NUMERIC_OPERAND_CAT 2
-#define NUMERIC_SPECIALCHAR_CAT 3
 
-typedef struct struct_token {
-    char* identifier;
-    int id_length;
-    int category;
-} Token;
+
+
 
 /**
  * Splits a string into an array of string tokens based on '<' and '>' delimiters.
@@ -48,6 +44,7 @@ Token* stringToToken(char** stringTokens);
  *         - -1 for unrecognized category.
  */
 int numerateCategory(char* category);
+
 /**
  * Parses the content of a file into a list of tokens.
  *
@@ -75,6 +72,17 @@ char* getFileContent(const char* filename);
  * @param tokenList The list of tokens.
  * @return The number of tokens in the list.
  */
-int calculateTokenListLength(Token *tokenList);
+int calculateTokenListLength(Token* tokenList);
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

@@ -5,8 +5,40 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+
+
+#include "datastructures.h"
 #include "errors.h"
-/* #include "datastructures.h" */
 #include "tokens.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

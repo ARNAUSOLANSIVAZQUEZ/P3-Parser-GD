@@ -71,7 +71,18 @@ int main(int argc, char *argv[])
 
 
 
+/*
 
+
+gcc main.c datastructures.c errors.c monads.c tokens.c -o parser
+
+
+
+
+
+
+
+*/
 
 
 

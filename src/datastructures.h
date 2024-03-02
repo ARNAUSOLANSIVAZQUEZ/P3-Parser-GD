@@ -2,14 +2,18 @@
 #define DATASTRUCT_HEADER
 
 #include <stdlib.h>
-
 #include <string.h>
 #include <stdbool.h>
+
 
 #include "utils.h"
 #include "monads.h"
 
 
+// categories of tokens
+#define NUMERIC_NUMBER_CAT 1
+#define NUMERIC_OPERAND_CAT 2
+#define NUMERIC_SPECIALCHAR_CAT 3
 
 
 
@@ -63,6 +67,12 @@ void print_token(Token* token);
 
 /*duplicates the token*/
 Token* clone_token(Token* original_token); 
+
+/*
+    Returns a new list containig only the valid tokents in token list. 
+    Does NOT take ownership of token_list. 
+*/
+Token* filter_token(Token* token_list, int len); 
 
 /*
     Frees the identifier inside token. 
