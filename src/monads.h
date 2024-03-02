@@ -70,7 +70,7 @@ typedef struct {
     void* ok; 
     void* error; 
     unsigned int value_size_bytes; 
-    int is_ok;
+    bool is_ok;
 } Result;
 
 

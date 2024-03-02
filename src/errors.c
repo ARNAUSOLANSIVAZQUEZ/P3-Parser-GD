@@ -15,6 +15,8 @@ const char* ERROR_MESSAGE_NOT_VALID_TOKENS = "None valid tokens were returned by
 
 //Datastructures.c
 
+const char* ERROR_MESSAGE_PARSING_TOKEN_ERROR = "Error: error while parsing toknes in input file. \n";
+
 
 //Monads.c
 

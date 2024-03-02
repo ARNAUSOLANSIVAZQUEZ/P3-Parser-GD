@@ -21,10 +21,14 @@ extern const char* ERROR_MESSAGE_NOT_VALID_TOKENS;
 
 //Datastructures.c
 
+#define TOKEN_SCAN_ERROR 2545
+extern const char* ERROR_MESSAGE_PARSING_TOKEN_ERROR;
+
 
 //Monads.c
 
 /* -----------Literals---------------------------- */
+
 extern const char* TOKEN_LENGTH;
 extern const char* TOKENS;
 

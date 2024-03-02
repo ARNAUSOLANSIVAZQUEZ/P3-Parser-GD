@@ -8,13 +8,34 @@ int main(int argc, char *argv[])
     }
     
     // Get the list of tokens that appear in the input file and its length
-    Token* token_list = getTokens(argv[1]);
-    int token_list_len = calculateTokenListLength(token_list); 
+    Result* result_tok_list = getTokens(argv[1]); 
+    if(!result_tok_list->is_ok) {
+        //TODO: handle errors 
+        int* error_num_ptr = result_tok_list->error; 
+        int error_num = error_num_ptr[0]; 
+        free(error_num_ptr); 
+        free_result(result_tok_list); 
 
-    if (token_list == NULL || token_list_len == 0){
-        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_NOT_VALID_TOKENS);
-        return NO_VALID_TOKENS_ERROR;
+        if(error_num == 0) {
+            // error reading file, message already displayed
+            return 1; 
+        }
+
+        if(error_num == TOKEN_SCAN_ERROR) {
+            fprintf(stderr, "%s", ERROR_MESSAGE_PARSING_TOKEN_ERROR);
+            return 1; 
+        }
+
+        if(error_num = MEMORY_ALLOCATION_ERROR) {
+            fprintf(stderr, "Error while requesting memory. \n");
+            return 1; 
+        }
+    
     }
+    Token* token_list = unwrap_ok(result_tok_list); 
+    int token_list_len = result_tok_list->value_size_bytes / sizeof(Token); 
+    //calculateTokenListLength(token_list); 
+    free_result(result_tok_list); 
 
     filter_token(token_list, &token_list_len); //removes unwanted tokens
     
@@ -28,7 +49,10 @@ int main(int argc, char *argv[])
     // TODO: Handle error when  list of tokens is empty
 
     
-    /* RSA rsa; 
+    /* 
+    
+    
+    RSA rsa; 
     RSA* prsa = &rsa; 
     initialize_rsa(prsa); 
 
@@ -60,7 +84,10 @@ int main(int argc, char *argv[])
         free_token(&token_list[i]); 
     }
     free(token_list);
-    free_rsa(prsa);  */
+    free_rsa(prsa);  
+    
+    
+    */
 
     return PARSER_SUCCESS;
 }

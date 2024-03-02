@@ -23,7 +23,8 @@
  *         The last element of the array is set to NULL to mark the end.
  *         If memory allocation fails during tokenization, the function terminates with an error message.
  */
-char** getStringToken(const char* input);
+char** getStringToken(const char* input, int* len); 
+//char** getStringToken(const char* input);
 
 /**
  * Converts an array of string tokens to an array of Token structs.
@@ -49,11 +50,13 @@ int numerateCategory(char* category);
  * Parses the content of a file into a list of tokens.
  *
  * @param filename The name of the file to be parsed.
- * @return A dynamically allocated array of Token structs representing the tokens parsed from the file.
+ * @return Result<Token*, int>: A dynamically allocated array of Token structs representing the tokens parsed from the file.
  *         If the file content cannot be retrieved or parsed successfully, NULL is returned, and an error message is printed to stderr.
  *         If memory allocation fails during token parsing, NULL is returned, and an error message is printed to stderr.
  */
-Token* getTokens(const char* filename);
+Result* getTokens(const char* filename); 
+//Token* getTokens(const char* filename);
+
 
 /**
  * Reads the content of a file and returns it as a dynamically allocated string.

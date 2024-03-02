@@ -3,15 +3,15 @@
 int numerateCategory(char* category){
     
     if (strstr(category, "CAT_NUMBER") != NULL) {
-        return NUMERIC_NUMBER_CAT;   //TODO: Change for defined variables, NO NUMBERS!!!
+        return NUMERIC_NUMBER_CAT; 
     }
     if (strstr(category, "CAT_OPERAND") != NULL) {
-        return NUMERIC_OPERAND_CAT;       //TODO: Change for defined variables, NO NUMBERS!!!
+        return NUMERIC_OPERAND_CAT;     
     }
     if (strstr(category, "CAT_SPECIALCHAR") != NULL) {
-        return NUMERIC_SPECIALCHAR_CAT;       //TODO: Change for defined variables, NO NUMBERS!!!
-    }else {
-        return -1;  //Case CAT_NONRECOGNIZED
+        return NUMERIC_SPECIALCHAR_CAT;      
+    } else {
+        return NON_RECOGNIZED_CAT;  //Case CAT_NONRECOGNIZED
     }
 }
 
@@ -65,16 +65,22 @@ Token* stringToToken(char** stringTokens) {
     return tokens;
 }
 
-char** getStringToken(const char* input) {
+char** getStringToken(const char* input, int* len) {
     char** tokenStringList = NULL; // List of token strings
     int numTokens = 0; // Number of tokens found
     char* tokenString = NULL;
     int length = 0;
     int c;
     
+    // you could split it by the char '>' and then sscanf(each_part, "<%s, %s", my_literal, my_category)
+    // WHY THE REALLOC CAPACITY is +1???? ALWAYS MULTIPLY 
+    //^ this is super inefficient
+    // you do not need temp, just : tokenString = realloc(...)
+    // unnecessary strdup(). you already have the pointer, just use it and set the variable to the new malloc()
+
     for (int i = 0; input[i] != '\0'; i++) {
-        c = input[i];
-        if (c != '<' && c != '>') {
+        c = input[i]; 
+        if (c != '<' && c != '>') { 
             char* temp = realloc(tokenString, length + 1); // +1 for the new character, +1 for null terminator
             if (temp == NULL) {
                 fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
@@ -83,7 +89,7 @@ char** getStringToken(const char* input) {
             }
             tokenString = temp;
             tokenString[length] = c; // Append the character to tokenString
-            length ++;
+            length++;
         }
         if (c == '>'){
             char* temp = realloc(tokenString, length + 1);
@@ -123,12 +129,14 @@ char** getStringToken(const char* input) {
     }
     tokenStringList[numTokens] = NULL;
     
+    *len = numTokens; 
+
     return tokenStringList;
 }
 
 char* getFileContent(const char* filename) {
     // Open the file
-    FILE *input_file = fopen(filename, "r");
+    FILE *input_file = fopen(filename, "rb");
     // Handle error opening target file
     if (input_file == NULL) {
         fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_CANT_OPEN_FILE);
@@ -172,24 +180,26 @@ int calculateTokenListLength(Token* tokenList) {
     return length;
 }
 
-Token* getTokens(const char* filename){
+//Token* getTokens(const char* filename){
+// Result<Token*, int>
+Result* getTokens(const char* filename) { 
 
     const char* input = getFileContent(filename);
     if (input == NULL) {
         fprintf(stderr, "Error getting file content from: %s\n", filename);
-        return NULL;
+        int* ret = malloc(sizeof(int)); 
+        *ret = 0; 
+        return Err(ret, sizeof(int));
     }
 
-    char** stringtokens = getStringToken(input);
+    int stringTokensSize = 0; 
+    char** stringtokens = getStringToken(input, &stringTokensSize);
     if (stringtokens == NULL) {
         // Handle error, maybe free input here if necessary
-        return NULL;
-    }
-    
-    // Calculate the size of stringTokens
-    int stringTokensSize = 0;
-    while (stringtokens[stringTokensSize] != NULL) {
-        stringTokensSize++;
+        
+        int* ret = malloc(sizeof(int)); 
+        *ret = TOKEN_SCAN_ERROR; 
+        return Err(ret, sizeof(int));
     }
 
     // Allocate memory for tokenList based on the size of stringTokens
@@ -197,16 +207,20 @@ Token* getTokens(const char* filename){
     if (tokenList == NULL) {
         // Handle memory allocation failure
         fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
+
         // Free allocated memory for stringtokens before returning
         for (int i = 0; stringtokens[i] != NULL; i++) {
             free(stringtokens[i]);
         }
-        free(stringtokens);
-        return NULL;
+        free(stringtokens); 
+
+        int* ret = malloc(sizeof(int)); 
+        *ret = MEMORY_ALLOCATION_ERROR; 
+        return Err(ret, sizeof(int));
     }
 
     // Populate tokenList with tokens
     tokenList = stringToToken(stringtokens);
 
-    return tokenList;
+    return Ok(tokenList, sizeof(Token) * stringTokensSize);
 }

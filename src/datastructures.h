@@ -11,6 +11,7 @@
 
 
 // categories of tokens
+#define NON_RECOGNIZED_CAT -1
 #define NUMERIC_NUMBER_CAT 1
 #define NUMERIC_OPERAND_CAT 2
 #define NUMERIC_SPECIALCHAR_CAT 3

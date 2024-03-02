@@ -29,6 +29,13 @@ void print_token(Token* token) {
 
 void filter_token(Token* token_list, int* len) {
 
+    /*
+    There are 2 indexes, reading and writing. The reading reads the token and if it is valid
+    (category is good), copies all the contents in the wrinting index position. 
+    Otherwise, it frees the token and proceeds. 
+    
+    */
+
     int current_index = 0; 
 
     int current_token_category = 0; //auxiliar variable
