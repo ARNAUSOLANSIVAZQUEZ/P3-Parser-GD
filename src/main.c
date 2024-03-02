@@ -4,13 +4,13 @@
 int numerateCategory(char* category){
     
     if (strstr(category, "CAT_NUMBER") != NULL) {
-        return 1;   //TODO: Change for defined variables, NO NUMBERS!!!
+        return NUMERIC_NUMBER_CAT;   //TODO: Change for defined variables, NO NUMBERS!!!
     }
     if (strstr(category, "CAT_OPERAND") != NULL) {
-        return 2;       //TODO: Change for defined variables, NO NUMBERS!!!
+        return NUMERIC_OPERAND_CAT;       //TODO: Change for defined variables, NO NUMBERS!!!
     }
     if (strstr(category, "CAT_SPECIALCHAR") != NULL) {
-        return 3;       //TODO: Change for defined variables, NO NUMBERS!!!
+        return NUMERIC_SPECIALCHAR_CAT;       //TODO: Change for defined variables, NO NUMBERS!!!
     }else {
         return -1;  //Case CAT_NONRECOGNIZED
     }
@@ -26,8 +26,8 @@ Token* stringToToken(char** stringTokens) {
 
     Token* tokens = malloc(numTokens * sizeof(Token));
     if (tokens == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
+        return NULL;
     }
 
     // Convert each string token to Token struct
@@ -41,28 +41,26 @@ Token* stringToToken(char** stringTokens) {
         char* token = stringTokens[i];
         char* comma = strchr(token, ',');
         if (comma == NULL) {
-            fprintf(stderr, "Invalid token format: %s\n", token);
-            exit(EXIT_FAILURE);
+            fprintf(stderr, "Error: %s%s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED, token);
+            return NULL;
         }
         *comma = '\0'; // Replace comma with null terminator to split the token
         identifier = token;
         category = comma + 1; // Category starts after the comma
-        int numberCategory = numerateCategory(category);
         
-        if(numberCategory != -1){
-            // Assign values to Token struct
-            tokens[validTokens].identifier = identifier;
-            tokens[validTokens].id_length = strlen(identifier);
-            tokens[validTokens].category = numberCategory;
-            validTokens++; // Increment the number of valid tokens
-        }
+        // Assign values to Token struct
+        tokens[validTokens].identifier = identifier;
+        tokens[validTokens].id_length = strlen(identifier);
+        tokens[validTokens].category = numerateCategory(category);
+        validTokens++; // Increment the number of valid tokens
+        
     }
 
     // Resize the tokens array to contain only valid tokens
     tokens = realloc(tokens, validTokens * sizeof(Token));
     if (tokens == NULL) {
-        fprintf(stderr, "Memory reallocation failed\n");
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
+        return NULL;
     }
 
     return tokens;
@@ -80,7 +78,7 @@ char** getStringToken(const char* input) {
         if (c != '<' && c != '>') {
             char* temp = realloc(tokenString, length + 1); // +1 for the new character, +1 for null terminator
             if (temp == NULL) {
-                fprintf(stderr, "Memory allocation failed\n");
+                fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
                 free(tokenString);
                 tokenString = "";
             }
@@ -91,24 +89,23 @@ char** getStringToken(const char* input) {
         if (c == '>'){
             char* temp = realloc(tokenString, length + 1);
             if (temp == NULL) {
-                fprintf(stderr, "Memory allocation failed\n");
+                fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
                 free(tokenString);
                 tokenString = "";
             }
             tokenString = temp;
             tokenString[length] = '\0'; // Null-terminate the string
-            printf("%s\n", tokenString);
             
             // Add tokenString to list of tokenStringList
             tokenStringList = realloc(tokenStringList, (numTokens + 1) * sizeof(char*));
             if (tokenStringList == NULL) {
-                fprintf(stderr, "Memory allocation failed\n");
-                exit(EXIT_FAILURE);
+                fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
+                return NULL;
             }
             tokenStringList[numTokens] = strdup(tokenString);
             if (tokenStringList[numTokens] == NULL) {
-                fprintf(stderr, "Memory allocation failed\n");
-                exit(EXIT_FAILURE);
+                fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
+                return NULL;
             }
             numTokens++;
             
@@ -122,7 +119,7 @@ char** getStringToken(const char* input) {
     // Add a NULL terminator to the list to mark the end
     tokenStringList = realloc(tokenStringList, (numTokens + 1) * sizeof(char*));
     if (tokenStringList == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
         exit(EXIT_FAILURE);
     }
     tokenStringList[numTokens] = NULL;
@@ -130,13 +127,12 @@ char** getStringToken(const char* input) {
     return tokenStringList;
 }
 
-// Function to get content of a file as a string
 char* getFileContent(const char* filename) {
     // Open the file
     FILE *input_file = fopen(filename, "r");
     // Handle error opening target file
     if (input_file == NULL) {
-        fprintf(stderr, "Error opening file: %s\n", filename);
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_CANT_OPEN_FILE);
         return NULL;
     }
     
@@ -148,7 +144,7 @@ char* getFileContent(const char* filename) {
     // Allocate memory to store file content
     char* content = malloc(file_size + 1);
     if (content == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
         fclose(input_file);
         return NULL;
     }
@@ -156,7 +152,7 @@ char* getFileContent(const char* filename) {
     // Read file content into string
     size_t bytes_read = fread(content, 1, file_size, input_file);
     if (bytes_read != file_size) {
-        fprintf(stderr, "Error reading file: %s\n", filename);
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_CANT_READ_FILE);
         fclose(input_file);
         free(content);
         return NULL;
@@ -186,41 +182,60 @@ Token* getTokens(const char* filename){
     }
 
     char** stringtokens = getStringToken(input);
+    if (stringtokens == NULL) {
+        // Handle error, maybe free input here if necessary
+        return NULL;
+    }
     
-    Token* tokenList = stringToToken(stringtokens);
-    
-    int length = calculateTokenListLength(tokenList);
-    printf("Length of tokenList: %d\n", length);
-
-    for (int i=0; i<length; i++){
-        printf("Id: %s\n", tokenList[i].identifier);
-        printf("Id length: %d\n", tokenList[i].id_length);
-        printf("Category: %d\n", tokenList[i].category);
+    // Calculate the size of stringTokens
+    int stringTokensSize = 0;
+    while (stringtokens[stringTokensSize] != NULL) {
+        stringTokensSize++;
     }
 
-    // Free allocated memory
-    for (int i = 0; stringtokens[i] != NULL; i++) {
-        free(stringtokens[i]);
+    // Allocate memory for tokenList based on the size of stringTokens
+    Token* tokenList = malloc(stringTokensSize * sizeof(Token));
+    if (tokenList == NULL) {
+        // Handle memory allocation failure
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED);
+        // Free allocated memory for stringtokens before returning
+        for (int i = 0; stringtokens[i] != NULL; i++) {
+            free(stringtokens[i]);
+        }
+        free(stringtokens);
+        return NULL;
     }
 
-    int token_list_len = -1; //we need to get back the length too, or we risk a seg. fault
-    //^si necessites, canvia la signatura de la funció
+    // Populate tokenList with tokens
+    tokenList = stringToToken(stringtokens);
 
-    
     return tokenList;
 }
+
 
 
 int main(int argc, char *argv[])
 {
     if(argc != 2) {
-        printf("Usage: ./parser <input_file.txt>\n"); 
-        return 1; 
+        printf("%s",ERROR_ARGS); 
+        return ARGS_ERROR; 
     }
     
-    // Call the getTokens function with the filename
+    // Get the list of tokens that appear in the input file and its length
     Token* token_list = getTokens(argv[1]);
-    int token_list_len = -1; //get token list len (dont even try to search for /0)
+    
+    int length = calculateTokenListLength(token_list);
+
+    if (length == 0){
+
+
+    }
+    printf(TOKEN_LENGTH, length);
+
+    for (int i=0; i<length; i++){
+        printf(TOKENS, i, token_list[i].identifier, token_list[i].id_length, token_list[i].category);
+    }
+
 
     // TODO: Handle error when  list of tokens is empty
 
@@ -259,7 +274,7 @@ int main(int argc, char *argv[])
     free(token_list);
     free_rsa(prsa);  */
 
-    return SCANNER_SUCCESS;
+    return PARSER_SUCCESS;
 }
 
 

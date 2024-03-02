@@ -1,30 +1,29 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
-//Error codes at MAIN
-#define MAIN_ERROR_CANT_READ_FILE 1
-#define MAIN_ERROR_MISSING_FILENAME 2
-#define MAIN_ERROR_FILE_PROCESSING 3
+/* ----------General errors----------------------- */
+#define PARSER_SUCCESS 0
+#define MEMORY_ALLOCATION_ERROR 12
+#define ARGS_ERROR -1
+const char* ERROR_MESSAGE_SCANNER_SUCCESS;
+const char* ERROR_MESSAGE_MEMORY_ALLOCATION_FAILED;
+const char* ERROR_ARGS;
 
-// Error codes at SCANNER
-#define SCANNER_SUCCESS 0
-#define SCANNER_ERROR_NONALPHABETCHAR 5
+/* ----------Specific Errors----------------------- */
 
-//Error codes at PREPROCESS
-#define PREPROCESS_ERROR_MEMORY_ALLOCATION 12
+//Main.c
+const char* ERROR_MESSAGE_CANT_OPEN_FILE;
+const char* ERROR_MESSAGE_CANT_READ_FILE;
+const char* ERROR_MESSAGE_INVALID_TOKEN_FORMAT;
 
-//Error messages at MAIN
-extern const char* ERROR_MESSAGE_CANT_READ_FILE;
-extern const char* ERROR_MESSAGE_MISSING_FILENAME;
-extern const char* ERROR_MESSAGE_FILE_PROCESSING;
-
-// Error messages at SCANNER
-extern const char* ERROR_MESSAGE_SCANNER_SUCCESS;
-extern const char* ERROR_MESSAGE_ERROR_NONALPHABETCHAR;
+//Datastructures.c
 
 
-//Error messages at PREPROCESS
-extern const char* ERROR_MESSAGE_MEMORY_ALLOCATION;
+//Monads.c
+
+/* -----------Literals---------------------------- */
+const char* TOKEN_LENGTH;
+const char* TOKENS;
 
 
 #endif
