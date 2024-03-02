@@ -27,21 +27,29 @@ void print_token(Token* token) {
     printf("\t_________________________________\n");
 }
 
-Token* filter_token(Token* token_list, int len) {
+void filter_token(Token* token_list, int* len) {
 
-    Token* ret = (Token*)malloc(sizeof(Token) * len); 
+    int current_index = 0; 
 
-    int current_token_category = 0; 
-    for(int i = 0; i < len; i++) {
+    int current_token_category = 0; //auxiliar variable
+    for(int i = 0; i < *len; i++) {
 
         current_token_category = token_list[i].category; 
         if(NUMERIC_NUMBER_CAT == current_token_category || NUMERIC_OPERAND_CAT == current_token_category || NUMERIC_SPECIALCHAR_CAT == current_token_category) {
-            ;;
+            
+            token_list[current_index].identifier = token_list[i].identifier; 
+            token_list[current_index].id_length = token_list[i].id_length; 
+            token_list[current_index].category = token_list[i].category; 
+            current_index++; 
+
+        } else {
+            free_token(&token_list[i]); 
         }
 
     }
 
-    return NULL; 
+    *len = current_index; 
+
 }
 
 void free_token(Token* t) {

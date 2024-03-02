@@ -69,10 +69,10 @@ void print_token(Token* token);
 Token* clone_token(Token* original_token); 
 
 /*
-    Returns a new list containig only the valid tokents in token list. 
-    Does NOT take ownership of token_list. 
+    Transforms the list and removes all unvalid tokens and frees them. 
+    Len is updated. Does NOT take ownership of token_list. 
 */
-Token* filter_token(Token* token_list, int len); 
+void filter_token(Token* token_list, int* len); 
 
 /*
     Frees the identifier inside token. 

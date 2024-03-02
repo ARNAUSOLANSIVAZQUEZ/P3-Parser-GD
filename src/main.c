@@ -9,15 +9,18 @@ int main(int argc, char *argv[])
     
     // Get the list of tokens that appear in the input file and its length
     Token* token_list = getTokens(argv[1]);
-    int length = calculateTokenListLength(token_list);
+    int token_list_len = calculateTokenListLength(token_list); 
 
-    if (token_list == NULL || length == 0){
+    if (token_list == NULL || token_list_len == 0){
         fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_NOT_VALID_TOKENS);
         return NO_VALID_TOKENS_ERROR;
     }
-    printf(TOKEN_LENGTH, length);
 
-    for (int i=0; i<length; i++){
+    filter_token(token_list, &token_list_len); //removes unwanted tokens
+    
+    printf(TOKEN_LENGTH, token_list_len);
+
+    for (int i = 0; i < token_list_len; i++){
         printf(TOKENS, i, token_list[i].identifier, token_list[i].id_length, token_list[i].category);
     }
 

@@ -164,7 +164,7 @@ char* getFileContent(const char* filename) {
     return content;
 }
 
-int calculateTokenListLength(Token *tokenList) {
+int calculateTokenListLength(Token* tokenList) {
     int length = 0;
     while (tokenList[length].identifier != NULL) {
         length++;
