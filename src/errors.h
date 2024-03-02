@@ -12,9 +12,12 @@ const char* ERROR_ARGS;
 /* ----------Specific Errors----------------------- */
 
 //Main.c
+#define NO_VALID_TOKENS_ERROR -2
 const char* ERROR_MESSAGE_CANT_OPEN_FILE;
 const char* ERROR_MESSAGE_CANT_READ_FILE;
 const char* ERROR_MESSAGE_INVALID_TOKEN_FORMAT;
+const char* ERROR_MESSAGE_NOT_VALID_TOKENS;
+
 
 //Datastructures.c
 

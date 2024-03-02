@@ -9,12 +9,11 @@ int main(int argc, char *argv[])
     
     // Get the list of tokens that appear in the input file and its length
     Token* token_list = getTokens(argv[1]);
-    
     int length = calculateTokenListLength(token_list);
 
-    if (length == 0){
-
-
+    if (token_list == NULL || length == 0){
+        fprintf(stderr, "Error: %s\n", ERROR_MESSAGE_NOT_VALID_TOKENS);
+        return NO_VALID_TOKENS_ERROR;
     }
     printf(TOKEN_LENGTH, length);
 
