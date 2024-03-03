@@ -123,11 +123,13 @@ void free_stack(Stack* stack) {
 }
 
 //RULE
-void initialize_rule(Rule* rule, Token** body, int body_length, Token element) {
-    rule->body = (Token**)malloc(body_length * sizeof(Token*));
+void initialize_rule(Rule* rule, Token* body, int body_length, Token element) {
+    rule->body = (Token*)malloc(body_length * sizeof(Token));
+
     for (int i = 0; i < body_length; i++) {
-        rule->body[i] = *body[i];
+        rule->body[i] = body[i];
     }
+
     rule->body_length = body_length;
     rule->element = element;
 }
@@ -135,16 +137,16 @@ void initialize_rule(Rule* rule, Token** body, int body_length, Token element) {
 bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len) {
     // We check if the body_length matches the candidate_len
     if (rule->body_length != candidate_len) {
-        return false; // The rule body length does not match candidate length
+        return false;
     }
-    
-    //We iterate through every element in the rule body and the rule_candidates and them
+
+    // Compare token categories instead of literals
     for (int i = 0; i < rule->body_length; i++) {
-        if (strcmp(rule->body[i].identifier, rule_candidates[i].identifier) != 0) {
-            return false; // The token identifiers don't match
+        if (rule->body[i].category != rule_candidates[i].category) {
+            return false;
         }
     }
-    
+
     return true;
 }
 
@@ -160,13 +162,17 @@ void print_rule(Rule* rule) {
 }
 
 void free_rule(Rule* rule) {
+    // Free the tokens in rule->body
     for (int i = 0; i < rule->body_length; i++) {
-        // Pass the address of rule->body[i] to free the token
         free_token(&rule->body[i]);
     }
-    free(rule->body);
-}
 
+    // Free rule->body itself
+    free(rule->body);
+
+    // Free the element
+    free_token(&rule->element);
+}
 //RSA
 void initialize_rsa(RSA* rsa) {
     rsa->num_rules = 0; 

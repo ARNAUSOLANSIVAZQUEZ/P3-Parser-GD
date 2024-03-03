@@ -109,7 +109,7 @@ void free_stack(Stack* stack);
 
 //RULE
 /*Initializes the rule with the parameters recieved*/
-void initialize_rule(Rule* rule, Token** body, int body_length, Token element); 
+void initialize_rule(Rule* rule, Token* body, int body_length, Token element); 
 
 
 /**
