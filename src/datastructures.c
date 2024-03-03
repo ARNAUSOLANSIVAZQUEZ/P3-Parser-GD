@@ -133,13 +133,15 @@ void initialize_rule(Rule* rule, Token** body, int body_length, Token element) {
 }
 
 bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len) {
+    // We check if the body_length matches the candidate_len
     if (rule->body_length != candidate_len) {
-        return false; // Rule body length does not match candidate length
+        return false; // The rule body length does not match candidate length
     }
     
+    //We iterate through every element in the rule body and the rule_candidates and them
     for (int i = 0; i < rule->body_length; i++) {
         if (strcmp(rule->body[i].identifier, rule_candidates[i].identifier) != 0) {
-            return false; // Token identifier mismatch
+            return false; // The token identifiers don't match
         }
     }
     
@@ -150,7 +152,6 @@ void print_rule(Rule* rule) {
     printf("\tRule: _________________________\n");
     printf("Body: ");
     for (int i = 0; i < rule->body_length; i++) {
-        // Use . instead of -> to access members of Token
         printf("%s ", rule->body[i].identifier);
     }
     printf("\n");
@@ -160,7 +161,7 @@ void print_rule(Rule* rule) {
 
 void free_rule(Rule* rule) {
     for (int i = 0; i < rule->body_length; i++) {
-        // Pass the address of rule->body[i] to free_token
+        // Pass the address of rule->body[i] to free the token
         free_token(&rule->body[i]);
     }
     free(rule->body);

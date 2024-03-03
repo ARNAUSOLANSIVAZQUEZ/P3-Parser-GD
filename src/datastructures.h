@@ -108,16 +108,25 @@ void print_stack(Stack* stack);
 void free_stack(Stack* stack); 
 
 //RULE
-/*Initializes*/
+/*Initializes the rule with the parameters recieved*/
 void initialize_rule(Rule* rule, Token** body, int body_length, Token element); 
 
-/*Returns true iff the list of rule_candidates follows the rule*/
+
+/**
+* The function looks if the list of rule_candidates follows the rule or not
+ *
+ * @param rule The rule that the rule_candidates follow or not
+ * @param rule_candidates List of candidate rules that we will look if they follow the rule or not
+ * @param candidate_len Lenght of the candidate rule.
+ *
+ * @return The function returns true if the list of rule_candidates follows the rule and false otherwise.
+ */
 bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len); 
 
-/*prints, debug info. Does NOT take ownersip*/
+/*Prints the rule's info. Does NOT take ownersip*/
 void print_rule(Rule* rule); 
 
-/*Frees*/
+/*Frees the rule*/
 void free_rule(Rule* rule); 
 
 //RSA
