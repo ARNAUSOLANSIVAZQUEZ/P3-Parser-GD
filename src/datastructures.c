@@ -124,25 +124,46 @@ void free_stack(Stack* stack) {
 
 //RULE
 void initialize_rule(Rule* rule, Token** body, int body_length, Token element) {
-    //TODO: 
-
+    rule->body = (Token**)malloc(body_length * sizeof(Token*));
+    for (int i = 0; i < body_length; i++) {
+        rule->body[i] = *body[i];
+    }
+    rule->body_length = body_length;
+    rule->element = element;
 }
 
 bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len) {
-    //TODO: 
-    return false; 
+    if (rule->body_length != candidate_len) {
+        return false; // Rule body length does not match candidate length
+    }
+    
+    for (int i = 0; i < rule->body_length; i++) {
+        if (strcmp(rule->body[i].identifier, rule_candidates[i].identifier) != 0) {
+            return false; // Token identifier mismatch
+        }
+    }
+    
+    return true;
 }
 
 void print_rule(Rule* rule) {
-    //TODO: 
-
-    //maybe wanna use: ?
-    // print_token(Token* token)
+    printf("\tRule: _________________________\n");
+    printf("Body: ");
+    for (int i = 0; i < rule->body_length; i++) {
+        // Use . instead of -> to access members of Token
+        printf("%s ", rule->body[i].identifier);
+    }
+    printf("\n");
+    printf("Element: %s\n", rule->element.identifier);
+    printf("\t_________________________________\n");
 }
 
 void free_rule(Rule* rule) {
-    //TODO: 
-
+    for (int i = 0; i < rule->body_length; i++) {
+        // Pass the address of rule->body[i] to free_token
+        free_token(&rule->body[i]);
+    }
+    free(rule->body);
 }
 
 //RSA
@@ -234,31 +255,5 @@ void free_rsa(RSA* rsa) {
     free_stack(rsa->stack); 
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
