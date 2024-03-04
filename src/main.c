@@ -41,15 +41,15 @@ int main(int argc, char *argv[])
     
     printf(TOKEN_LENGTH, token_list_len);
 
+    /*
+    //print all tokens
     for (int i = 0; i < token_list_len; i++){
         printf(TOKENS, i, token_list[i].identifier, token_list[i].id_length, token_list[i].category);
-    }
+    }*/
 
-
-    // TODO: Handle error when  list of tokens is empty
 
     
-    /* 
+    
     
     
     RSA rsa; 
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     free_rsa(prsa);  
     
     
-    */
+    
 
     return PARSER_SUCCESS;
 }
@@ -106,7 +106,9 @@ int main(int argc, char *argv[])
 
 gcc main.c datastructures.c errors.c monads.c tokens.c -o parser
 
+Use: 
 
+./parser test1.txtscn
 
 
 
