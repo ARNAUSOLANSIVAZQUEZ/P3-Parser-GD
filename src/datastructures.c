@@ -216,7 +216,7 @@ bool reduce_rsa(RSA* rsa) {
     
     for(int i = 0; i < rsa->num_rules; i++) {
         Rule* current_rule = &rsa->rules[i]; 
-        int num_of_elements_to_take = 1; 
+        int num_of_elements_to_take = current_rule->body_length; 
         Token* corresponding_tokens = &rsa->stack->elements[rsa->stack->element_length - num_of_elements_to_take]; 
         bool follows_the_current_rule = follows_rule(current_rule, corresponding_tokens, num_of_elements_to_take); 
         if(follows_the_current_rule) { 
@@ -225,6 +225,7 @@ bool reduce_rsa(RSA* rsa) {
             print_rule(current_rule); 
             printf("\n\n"); 
 
+            //remove the substituted elements
             for(int j = 0; j < num_of_elements_to_take; j++) { 
                 Option* poped_token_opt = pop_stack(rsa->stack); 
                 Token* poped_token = (Token*)expect_some(poped_token_opt, "A token. Should always succeed because the rule test suceded. \n"); 
@@ -234,6 +235,7 @@ bool reduce_rsa(RSA* rsa) {
                 free(poped_token); 
             }
 
+            //add new token
             Token* substituter_token = clone_token(&(current_rule->element)); 
 
             push_stack(rsa->stack, substituter_token); 
