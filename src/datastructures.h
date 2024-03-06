@@ -16,12 +16,16 @@
 #define NUMERIC_OPERAND_CAT 2
 #define NUMERIC_SPECIALCHAR_CAT 3
 
+#define NON_TERMINAL_STARTING_CAT 4
+#define NON_TERMINAL_EXPRESSION_CAT 5
+#define NON_TERMINAL_TERM_CAT 6
+#define NON_TERMINAL_FACTOR_CAT 7
 
 
 typedef struct struct_token {
     char* identifier;
     int id_length;
-    int category;
+    int category; 
 } Token;
 
 
@@ -38,7 +42,7 @@ typedef struct struct_rule {
     Token* body; 
     int body_length; 
     Token element; 
-} Rule;
+} Rule; 
 
 
 /* 
@@ -108,7 +112,7 @@ void print_stack(Stack* stack);
 void free_stack(Stack* stack); 
 
 //RULE
-/*Initializes the rule with the parameters recieved*/
+/*Initializes the rule with the parameters recieved, takes ownership of body and element*/
 void initialize_rule(Rule* rule, Token* body, int body_length, Token element); 
 
 

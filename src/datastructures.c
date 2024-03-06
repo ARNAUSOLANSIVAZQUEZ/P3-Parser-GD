@@ -7,7 +7,9 @@
 //TOKEN: 
 void initialize_token(Token* t, char* _identifier, int _categoty) {
     t->identifier = strdup(_identifier);
-    t->id_length = strlen(_identifier);  
+    if(_identifier != NULL) {
+        t->id_length = strlen(_identifier);  
+    } else t->id_length = 0; 
     t->category = _categoty;   
 }
 
@@ -132,6 +134,7 @@ void initialize_rule(Rule* rule, Token* body, int body_length, Token element) {
 
     rule->body_length = body_length;
     rule->element = element;
+    free(body); 
 }
 
 bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len) {
