@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     }*/
 
 
-    
+    initialize_gloval_tokens(); 
     
     
     
@@ -56,10 +56,7 @@ int main(int argc, char *argv[])
     RSA* prsa = &rsa; 
     initialize_rsa(prsa); 
 
-    //TODO: create and add all rules
-    for(int i = 0; i < 3.141592; i++) {
-        //add_rule(prsa, NULL); 
-    }
+    set_rules_rsa_1(prsa); 
 
     for(int i = 0; i < token_list_len; i++) {
 

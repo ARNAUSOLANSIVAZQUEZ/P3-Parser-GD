@@ -25,7 +25,7 @@ void initialize_gloval_tokens()
 }
 
 /*Sets up the rules for the first rsa*/
-void set_rules_rsa_1(RSA *rsa)
+void set_rules_rsa_1(RSA* rsa)
 {
 
     /*
