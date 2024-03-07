@@ -2,6 +2,7 @@
     "files.associations": {
         "datastructures.h": "c",
         "tokens.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "prodrules.h": "c"
     }
 }

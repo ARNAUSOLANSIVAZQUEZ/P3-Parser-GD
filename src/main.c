@@ -48,8 +48,6 @@ int main(int argc, char *argv[])
     }*/
 
 
-    initialize_gloval_tokens(); 
-    
     
     
     RSA rsa; 
@@ -101,7 +99,7 @@ int main(int argc, char *argv[])
 /*
 
 
-gcc main.c datastructures.c errors.c monads.c tokens.c -o parser
+gcc main.c datastructures.c errors.c monads.c tokens.c prodrules.c -o parser
 
 Use: 
 
