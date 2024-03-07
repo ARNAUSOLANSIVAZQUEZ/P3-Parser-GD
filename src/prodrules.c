@@ -123,7 +123,7 @@ void set_rules_rsa_1(RSA* rsa) {
         
         char* parenthesis_close_string = (char*)malloc(sizeof(char) * 2); 
         strcpy(parenthesis_close_string, ")"); 
-        initialize_token(&token_list[0], parenthesis_close_string, NUMERIC_SPECIALCHAR_CAT); //parenthesis ()
+        initialize_token(&token_list[2], parenthesis_close_string, NUMERIC_SPECIALCHAR_CAT); //parenthesis ()
         
 
 

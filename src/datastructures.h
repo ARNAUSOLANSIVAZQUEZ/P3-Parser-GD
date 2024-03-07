@@ -159,6 +159,9 @@ bool reduce_rsa(RSA* rsa);
 /*Returns true if there is only 1 token in the stack and that one is the starting token*/
 bool is_starting_token(RSA* rsa); 
 
+/*Auxiliar function for debugging*/
+void print_rsa(RSA* rsa); 
+
 /*frees the contents of rsa*/
 void free_rsa(RSA* rsa); 
 

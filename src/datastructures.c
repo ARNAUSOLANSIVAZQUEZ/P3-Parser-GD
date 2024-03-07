@@ -6,10 +6,13 @@
 
 //TOKEN: 
 void initialize_token(Token* t, char* _identifier, int _categoty) {
-    t->identifier = strdup(_identifier);
     if(_identifier != NULL) {
+        t->identifier = strdup(_identifier);
         t->id_length = strlen(_identifier);  
-    } else t->id_length = 0; 
+    } else {
+        t->identifier = NULL; 
+        t->id_length = 0; 
+    }
     t->category = _categoty;   
 }
 
@@ -22,11 +25,51 @@ Token* clone_token(Token* original_token) {
 }
 
 void print_token(Token* token) {
-    printf("\tToken: _________________________\n");
+    //printf("\tToken: _________________________\n");
+
+
+    char category_string[50] = ""; 
+    switch (token->category){
+    case NUMERIC_NUMBER_CAT: 
+        strcpy(category_string, "NUMBER"); 
+        break;
+    case NUMERIC_OPERAND_CAT: 
+        strcpy(category_string, "OPERAND"); 
+        break;
+    case NUMERIC_SPECIALCHAR_CAT: 
+        strcpy(category_string, "SPECIALCHAR"); 
+        break;
+    case NON_TERMINAL_STARTING_CAT: 
+        strcpy(category_string, "NT_STARTING"); 
+        break;
+    case NON_TERMINAL_EXPRESSION_CAT: 
+        strcpy(category_string, "NT_EXPRESSION"); 
+        break;
+    case NON_TERMINAL_TERM_CAT: 
+        strcpy(category_string, "NT_TERM"); 
+        break;
+    case NON_TERMINAL_FACTOR_CAT: 
+        strcpy(category_string, "NT_FACTOR"); 
+        break;
+
+    default: 
+        printf("NON-VALID CATEGORY. /////////////////////////////////////////////////////////////////////////////////\n"); 
+        return; 
+        break;
+    }
+
+
+    if(token->identifier != NULL) {
+        printf("[%s | (%d) %s ]", category_string, token->id_length, token->identifier); 
+    } else {
+        printf("[%s]", category_string); 
+    }
+
+    /*
     printf("Identifier: %s\n", token->identifier);
     printf("Length: %d\n", token->id_length);
     printf("Category: %d\n", token->category);
-    printf("\t_________________________________\n");
+    printf("\t_________________________________\n");*/
 }
 
 void filter_token(Token* token_list, int* len) {
@@ -157,10 +200,15 @@ void print_rule(Rule* rule) {
     printf("\tRule: _________________________\n");
     printf("Body: ");
     for (int i = 0; i < rule->body_length; i++) {
-        printf("%s ", rule->body[i].identifier);
+        //printf("%s ", rule->body[i].identifier);
+        print_token(&rule->body[i]); 
+        printf("\t");
     }
+
+    //printf("Element: %s\n", rule->element.identifier);
+    printf("\nElement: ");
+    print_token(&rule->element); 
     printf("\n");
-    printf("Element: %s\n", rule->element.identifier);
     printf("\t_________________________________\n");
 }
 
@@ -254,9 +302,22 @@ bool reduce_rsa(RSA* rsa) {
 }
 
 bool is_starting_token(RSA* rsa) {
-    printf("Comparason with starting token NOT implemented\n"); 
-    return false; 
+    //printf("Comparason with starting token NOT implemented\n"); 
+    bool ret = rsa->stack->element_length == 1; 
+    if(ret) {
+        ret = rsa->stack->elements[0].category == NON_TERMINAL_STARTING_CAT; 
+    }
+    return ret; 
 }
+
+void print_rsa(RSA* rsa) {
+
+    for(int i = 0; i < rsa->num_rules; i++) print_rule(&(rsa->rules[i])); 
+
+    print_stack(rsa->stack); 
+
+}
+
 
 void free_rsa(RSA* rsa) {
     //rsa->rules
