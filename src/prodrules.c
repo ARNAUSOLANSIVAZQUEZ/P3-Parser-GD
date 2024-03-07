@@ -126,7 +126,6 @@ void set_rules_rsa_1(RSA* rsa) {
         initialize_token(&token_list[2], parenthesis_close_string, NUMERIC_SPECIALCHAR_CAT); //parenthesis ()
         
 
-
         initialize_rule(&r6, token_list, token_list_len, r6_token);
     }
 

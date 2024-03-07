@@ -198,7 +198,10 @@ bool follows_rule(Rule* rule, Token* rule_candidates, int candidate_len) {
 
 void print_rule(Rule* rule) {
     printf("\tRule: _________________________\n");
-    printf("Body: ");
+
+    printf("Element: ");
+    print_token(&rule->element); 
+    printf("\nBody: ");
     for (int i = 0; i < rule->body_length; i++) {
         //printf("%s ", rule->body[i].identifier);
         print_token(&rule->body[i]); 
@@ -206,8 +209,6 @@ void print_rule(Rule* rule) {
     }
 
     //printf("Element: %s\n", rule->element.identifier);
-    printf("\nElement: ");
-    print_token(&rule->element); 
     printf("\n");
     printf("\t_________________________________\n");
 }
