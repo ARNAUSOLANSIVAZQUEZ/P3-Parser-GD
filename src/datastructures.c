@@ -134,14 +134,21 @@ Option* peek_stack(Stack* stack) {
 
 Option* pop_stack(Stack* stack) {
 
-    if (stack->element_length > 0) {
-        Token* top_element_ptr = (Token*)malloc(sizeof(Token) * 1); 
-        *top_element_ptr = stack->elements[stack->element_length - 1]; 
-        stack->element_length--;
-        return Some(top_element_ptr, sizeof(Token));
-    } else { 
+    if(stack->element_length <= 0) {
         return None(); // Stack is empty
     }
+
+    /*
+    Token* top_element_ptr = (Token*)malloc(sizeof(Token) * 1); 
+    *top_element_ptr = stack->elements[stack->element_length - 1]; 
+    stack->element_length += -1; */
+
+    Token* top_element_ptr_clone = clone_token(&stack->elements[stack->element_length - 1]); 
+    free_token(&stack->elements[stack->element_length - 1]); 
+    stack->element_length += -1;
+
+
+    return Some(top_element_ptr_clone, sizeof(Token));
 }
 
 void push_stack(Stack* stack, Token* new_token) {
@@ -162,9 +169,10 @@ void push_stack(Stack* stack, Token* new_token) {
 void print_stack(Stack* stack) {
     printf("\tStack: _________________________\n"); 
     for(int i = 0; i < stack->element_length; i++) {
+        printf("\n%d: \t", i + 1);
         print_token(&stack->elements[i]); 
     }
-    printf("_______________________________\n"); 
+    printf("\n_______________________________\n"); 
 }
 
 void free_stack(Stack* stack) {
@@ -219,7 +227,7 @@ void print_rule(Rule* rule) {
 
     //printf("Element: %s\n", rule->element.identifier);
     printf("\n");
-    printf("\t_________________________________\n");
+    //printf("\t_________________________________\n");
 }
 
 void free_rule(Rule* rule) {
@@ -276,14 +284,15 @@ void shift_rsa(RSA* rsa, Token* token) {
 bool reduce_rsa(RSA* rsa) {
     
     for(int i = 0; i < rsa->num_rules; i++) {
-        Rule* current_rule = &rsa->rules[i]; 
-        int num_of_elements_to_take = current_rule->body_length; 
+        Rule* current_rule_ptr = &rsa->rules[i]; 
+        int num_of_elements_to_take = current_rule_ptr->body_length; 
         Token* corresponding_tokens = &rsa->stack->elements[rsa->stack->element_length - num_of_elements_to_take]; 
-        bool follows_the_current_rule = follows_rule(current_rule, corresponding_tokens, num_of_elements_to_take); 
+        bool follows_the_current_rule = follows_rule(current_rule_ptr, corresponding_tokens, num_of_elements_to_take); 
+        
         if(follows_the_current_rule) { 
 
             printf("Aplying the rule: \n"); 
-            print_rule(current_rule); 
+            print_rule(current_rule_ptr); 
             printf("\n\n"); 
 
             //remove the substituted elements
@@ -297,7 +306,7 @@ bool reduce_rsa(RSA* rsa) {
             }
 
             //add new token
-            Token* substituter_token = clone_token(&(current_rule->element)); 
+            Token* substituter_token = clone_token(&(current_rule_ptr->element)); 
 
             push_stack(rsa->stack, substituter_token); 
 
