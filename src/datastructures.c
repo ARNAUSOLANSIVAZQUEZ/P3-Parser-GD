@@ -18,7 +18,11 @@ void initialize_token(Token* t, char* _identifier, int _categoty) {
 
 Token* clone_token(Token* original_token) {
     Token* clone = (Token*)malloc(sizeof(Token));
-    clone->identifier = strdup(original_token->identifier);
+    if(original_token->identifier != NULL) {
+        clone->identifier = strdup(original_token->identifier);
+    } else {
+        clone->identifier = NULL; 
+    }
     clone->id_length = original_token->id_length;
     clone->category = original_token->category;
     return clone;
@@ -89,6 +93,9 @@ void filter_token(Token* token_list, int* len) {
         current_token_category = token_list[i].category; 
         if(NUMERIC_NUMBER_CAT == current_token_category || NUMERIC_OPERAND_CAT == current_token_category || NUMERIC_SPECIALCHAR_CAT == current_token_category) {
             
+            //Valid categories are only NUMERIC_NUMBER_CAT, NUMERIC_OPERAND_CAT and NUMERIC_SPECIALCHAR_CAT
+            // this could be generalized
+
             token_list[current_index].identifier = token_list[i].identifier; 
             token_list[current_index].id_length = token_list[i].id_length; 
             token_list[current_index].category = token_list[i].category; 
@@ -104,8 +111,10 @@ void filter_token(Token* token_list, int* len) {
 
 }
 
-void free_token(Token* t) {
-    free(t->identifier);
+void free_token(Token* token) {
+    if(token->identifier != NULL) {
+        free(token->identifier);
+    }
 }
 
 //Stack
@@ -229,7 +238,7 @@ void free_rule(Rule* rule) {
 void initialize_rsa(RSA* rsa) {
     rsa->num_rules = 0; 
     rsa->capacity_rules = ARRAY_BASE_CAPACITY; 
-    rsa->rules = (Rule*)malloc(rsa->capacity_rules * sizeof(Rule)); 
+    rsa->rules = (Rule*)malloc(ARRAY_BASE_CAPACITY * sizeof(Rule)); 
     rsa->stack = (Stack*)malloc(sizeof(Stack)); 
     initialize_stack(rsa->stack);
 
