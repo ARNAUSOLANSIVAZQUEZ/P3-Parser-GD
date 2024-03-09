@@ -109,11 +109,15 @@ gcc *.c -o parser
 
 Use: 
 
-./parser test1.txtscn
+./parser test2.txtscn
+
+Scanner: 
+
+./scanner test2.txt
 
 
 
-
+Test 1 passed. 
 
 */
 
