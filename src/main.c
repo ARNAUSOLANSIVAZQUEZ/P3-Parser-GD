@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
 
 
 gcc main.c datastructures.c errors.c monads.c tokens.c prodrules.c -o parser
+gcc *.c -o parser
 
 Use: 
 
