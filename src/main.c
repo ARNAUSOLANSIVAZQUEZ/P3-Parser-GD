@@ -54,7 +54,8 @@ int main(int argc, char *argv[])
     RSA* prsa = &rsa; 
     initialize_rsa(prsa); 
 
-    set_rules_rsa_1(prsa); 
+    //set_rules_rsa_1(prsa); 
+    set_rules_rsa_2(prsa); 
 
     print_rsa(prsa); //TODO: delete later
 

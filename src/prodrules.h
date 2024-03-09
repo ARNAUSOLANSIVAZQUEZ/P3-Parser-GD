@@ -19,6 +19,7 @@
 /*Set the set 1 of rules for the given rsa. Does not delete any previous rules*/
 void set_rules_rsa_1(RSA* rsa); 
 
+void set_rules_rsa_2(RSA* rsa); 
 
 
 
