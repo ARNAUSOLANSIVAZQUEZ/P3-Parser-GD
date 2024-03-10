@@ -150,10 +150,14 @@ void advance_rsa(RSA* rsa, Token* token);
 /*Adds clone of token to ths stack inside the rsa. Does NOT take ownership*/
 void shift_rsa(RSA* rsa, Token* token); 
 
-/*
-    Tries to aply the rules in order until it can aply one. Once aplied, 
-    returns true. If no rule can be aplied, returns false. 
-*/
+
+/**
+* The function tries to apply the rules in order until it can apply one.
+ *
+ * @param rsa The rsa which rules we want to apply 
+ *
+ * @return The function returns true once the rules are applied. If no rule can be aplied, returns false.
+ */
 bool reduce_rsa(RSA* rsa); 
 
 /*Returns true if there is only 1 token in the stack and that one is the starting token*/
