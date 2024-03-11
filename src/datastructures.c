@@ -325,12 +325,24 @@ bool reduce_rsa(RSA* rsa) {
 }
 
 bool is_starting_token(RSA* rsa) {
-    //printf("Comparason with starting token NOT implemented\n"); 
+
     bool ret = rsa->stack->element_length == 1; 
-    if(ret) {
+    if(!ret) return false; 
+
+    Option* first_token_opt= peek_stack(rsa->stack); 
+    if(first_token_opt->has_value) {
+        Token* first_token = unwrap(first_token_opt); 
+        ret = first_token->category == NON_TERMINAL_STARTING_CAT; 
+    } else ret = false; 
+    free_option(first_token_opt); 
+    return ret; 
+
+    /*
+    bool ret = rsa->stack->element_length == 1; 
+    if(ret) { 
         ret = rsa->stack->elements[0].category == NON_TERMINAL_STARTING_CAT; 
     }
-    return ret; 
+    return ret; */
 }
 
 void print_rsa(RSA* rsa) {
